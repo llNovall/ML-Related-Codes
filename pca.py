@@ -1,3 +1,5 @@
+import numpy as np
+
 ## Calculate PCA
 def PCA(X, n_components=2):
 
