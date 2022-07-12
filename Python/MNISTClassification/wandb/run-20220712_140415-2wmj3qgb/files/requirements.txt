@@ -67,7 +67,7 @@ json5==0.9.6
 jsonschema==3.0.2
 jupyter-client==7.1.2
 jupyter-core==4.9.2
-jupyter-server==1.13.5
+jupyter-server==1.15.4
 jupyterlab-pygments==0.1.2
 jupyterlab-server==2.10.3
 jupyterlab-widgets==1.0.0
