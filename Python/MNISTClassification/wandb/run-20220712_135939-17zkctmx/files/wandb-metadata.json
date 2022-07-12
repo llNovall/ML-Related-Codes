@@ -1,0 +1,18 @@
+{
+    "os": "Windows-10-10.0.19044-SP0",
+    "python": "3.9.11",
+    "heartbeatAt": "2022-07-12T11:59:40.490015",
+    "startedAt": "2022-07-12T11:59:39.923535",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 2070 SUPER",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "D:\\PycharmProjects\\MNISTClassification\\main.py",
+    "codePath": "main.py",
+    "host": "DESKTOP-7RCOE4I",
+    "username": "Nova",
+    "executable": "C:\\Users\\Nova\\anaconda3\\envs\\torch\\python.exe"
+}
