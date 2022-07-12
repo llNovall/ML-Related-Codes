@@ -130,7 +130,7 @@ pycparser==2.21
 pydeck==0.7.1
 pydeprecate==0.3.2
 pygments==2.11.2
-pyjwt==2.1.0
+pyjwt==2.4.0
 pympler==1.0.1
 pyopenssl==21.0.0
 pyparsing==3.0.4
