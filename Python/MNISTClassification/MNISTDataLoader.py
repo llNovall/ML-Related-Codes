@@ -57,25 +57,25 @@ class MNISTDataset(LightningDataModule):
                           shuffle=True,
                           num_workers=os.cpu_count(),
                           drop_last=True,
-                          generator=self.generator)
+                          generator=self.generator,
+                          persistent_workers=True)
 
     def val_dataloader(self) -> DataLoader:
         return DataLoader(dataset=self.val_data,
                           batch_size=self.val_batch_size,
                           num_workers=os.cpu_count(),
                           drop_last=True,
-                          generator=self.generator)
+                          generator=self.generator,
+                          persistent_workers=True)
 
     def test_dataloader(self) -> DataLoader:
         return DataLoader(dataset=self.test_data,
                           batch_size=self.test_batch_size,
                           num_workers=os.cpu_count(),
-                          drop_last=True,
                           generator=self.generator)
 
     def predict_dataloader(self) -> DataLoader:
         return DataLoader(dataset=self.predict_data,
                           batch_size=self.test_batch_size,
                           num_workers=os.cpu_count(),
-                          drop_last=True,
                           generator=self.generator)

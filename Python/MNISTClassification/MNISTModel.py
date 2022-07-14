@@ -1,3 +1,4 @@
+import torch
 import torchmetrics
 from pytorch_lightning import LightningModule
 import torch.nn as nn
@@ -6,11 +7,11 @@ import torch.nn.functional as f
 import torchmetrics
 
 class MNISTModel(LightningModule):
-    def __init__(self, learning_rate):
+    def __init__(self, num_channel, learning_rate):
         super().__init__()
 
         self.sequential = nn.Sequential(
-            nn.Conv2d(1, 64, kernel_size=3, stride=2, padding=1),
+            nn.Conv2d(num_channel, 64, kernel_size=3, stride=2, padding=1),
             nn.BatchNorm2d(64),
             nn.LeakyReLU(),
             nn.Conv2d(64, 64, kernel_size=3, stride=2, padding=1),
@@ -62,6 +63,13 @@ class MNISTModel(LightningModule):
         self._metrics_log('test', y_hat, y, loss)
 
         return loss
+
+    def predict_step(self, batch, batch_idx):
+
+        x, y = batch
+        y_hat = self(x)
+        prediction = torch.argmax(torch.softmax(y_hat, dim=-1), dim=-1)
+        return prediction
 
     def _metrics_log(self, stage:str, y_hat, y, loss):
         acc = self.accuracy(y_hat, y)
