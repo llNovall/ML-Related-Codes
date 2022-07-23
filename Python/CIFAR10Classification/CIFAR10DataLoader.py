@@ -24,7 +24,12 @@ class CIFAR10Dataset(LightningDataModule):
         self.test_batch_size = test_batch_size
         self.predict_batch_size = predict_batch_size
         self.train_val_split_size = train_val_split_size
-        self.transforms = transforms.Compose([transforms.ToTensor()])
+        self.transforms = transforms.Compose(
+            [
+                transforms.ToTensor(),
+                #transforms.Normalize(mean=0.5,  std=0.5)
+            ]
+        )
         self.generator = Generator().manual_seed(manual_seed)
 
         self.save_hyperparameters()
@@ -38,6 +43,9 @@ class CIFAR10Dataset(LightningDataModule):
 
         if stage == "fit" or stage is None:
             full_data = CIFAR10(self.path, train=True, transform=self.transforms)
+
+            print(f'Image_Shape : {full_data[0][0].shape}')
+
             train_size = int(self.train_val_split_size * len(full_data))
             test_size = len(full_data) - train_size
 
