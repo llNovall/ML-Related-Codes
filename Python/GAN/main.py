@@ -58,3 +58,4 @@ if __name__ == '__main__':
         trainer.fit(model, dm, ckpt_path='Checkpoints/last.ckpt')
     else:
         trainer.fit(model, dm)
+
