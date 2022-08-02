@@ -13,22 +13,22 @@ class Discriminator(nn.Module):
 
         self.model = nn.Sequential(
             nn.Conv2d(3, params.d_hidden_size, kernel_size=4, stride=2, padding=1, bias=False),  # 32 x 32
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size),
+            nn.BatchNorm2d(params.g_hidden_size),
             nn.LeakyReLU(0.2, inplace=True),
 
             nn.Conv2d(params.d_hidden_size, params.d_hidden_size * 2, kernel_size=4, stride=2, padding=1, bias=False),
             # 16 x 16
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 2),
+            nn.BatchNorm2d(params.g_hidden_size * 2),
             nn.LeakyReLU(0.2, inplace=True),
 
             nn.Conv2d(params.d_hidden_size * 2, params.d_hidden_size * 4, kernel_size=4, stride=2, padding=1,
                       bias=False),  # 8 x 8
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 4),
+            nn.BatchNorm2d(params.g_hidden_size * 4),
             nn.LeakyReLU(0.2, inplace=True),
 
             nn.Conv2d(params.d_hidden_size * 4, params.d_hidden_size * 8, kernel_size=4, stride=2, padding=1,
                       bias=False),  # 4 x 4
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 8),
+            nn.BatchNorm2d(params.g_hidden_size * 8),
             nn.LeakyReLU(0.2, inplace=True),
 
             nn.Conv2d(params.d_hidden_size * 8, 1, kernel_size=4, stride=2, padding=1, bias=False),  # 1 x 1
@@ -51,22 +51,22 @@ class Generator(nn.Module):
         self.model = nn.Sequential(
             nn.ConvTranspose2d(params.g_latent_size, params.g_hidden_size * 8, kernel_size=4, stride=1, padding=0,
                                bias=False),  # 4 x 4
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 8),
+            nn.BatchNorm2d(params.g_hidden_size * 8),
             nn.ReLU(True),
 
             nn.ConvTranspose2d(params.g_hidden_size * 8, params.g_hidden_size * 4, kernel_size=4, stride=2, padding=1,
                                bias=False),  # 8 x 8
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 4),
+            nn.BatchNorm2d(params.g_hidden_size * 4),
             nn.ReLU(True),
 
             nn.ConvTranspose2d(params.g_hidden_size * 4, params.g_hidden_size * 2, kernel_size=4, stride=2, padding=1,
                                bias=False),  # 16 x 16
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size * 2),
+            nn.BatchNorm2d(params.g_hidden_size * 2),
             nn.ReLU(True),
 
             nn.ConvTranspose2d(params.g_hidden_size * 2, params.g_hidden_size, kernel_size=4, stride=2, padding=1,
                                bias=False),  # 32 x 32
-            nn.GroupNorm(num_groups=32, num_channels=params.g_hidden_size),
+            nn.BatchNorm2d(params.g_hidden_size),
             nn.ReLU(True),
 
             nn.ConvTranspose2d(params.g_hidden_size, 3, kernel_size=4, stride=2, padding=1, bias=False),
@@ -79,7 +79,7 @@ class Generator(nn.Module):
         return img
 
 
-class GAN(LightningModule):
+class DCGAN(LightningModule):
     def __init__(
             self, params: ModelParams
     ):
@@ -98,7 +98,8 @@ class GAN(LightningModule):
     def forward(self, z):
         return self.generator(z)
 
-    def adversarial_loss(self, y_hat, y):
+    @staticmethod
+    def adversarial_loss(y_hat, y):
         loss = F.binary_cross_entropy(y_hat, y)
         return loss
 
@@ -106,13 +107,14 @@ class GAN(LightningModule):
         self.generator.model.apply(fn=self.weights_init)
         self.discriminator.model.apply(fn=self.weights_init)
 
-    def weights_init(self, module):
+    @staticmethod
+    def weights_init(module):
 
         if isinstance(module, nn.ConvTranspose2d):
             print("Assigning weights for ConvTranspose2d layer.")
             nn.init.normal_(module.weight.data, 0.0, 0.02)
         elif isinstance(module, nn.Conv2d):
-            print("Assigning weights for ConvTranspose2d layer.")
+            print("Assigning weights for Conv2d layer.")
             nn.init.normal_(module.weight.data, 0.0, 0.02)
         elif isinstance(module, nn.BatchNorm2d):
             print("Assigning weights for BatchNorm")

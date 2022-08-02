@@ -8,13 +8,13 @@ from torchvision.io import read_image, ImageReadMode
 from tqdm import tqdm
 from GANConfig import DataModuleParams
 
-class ImageDataset():
+
+class ImageDataset:
     def __init__(self, params: DataModuleParams):
 
         self.transforms = transforms.Compose(
             [
-                transforms.Resize(params.ds_image_size),
-                transforms.CenterCrop(params.ds_image_size)
+                transforms.Resize(params.ds_image_size, antialias=True)
             ]
         )
 
