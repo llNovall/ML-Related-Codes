@@ -130,3 +130,7 @@ dmypy.json
 *.png
 *.jpg
 *.ckpt
+
+# Log folders
+**/**/**/lightning_logs
+**/**/**/wandb
