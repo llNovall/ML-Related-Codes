@@ -1,0 +1,28 @@
+{
+    "Model": {
+        "gen_base_channels": 64,
+        "gen_num_res_blocks": 32,
+        "gen_num_ps_blocks": 2,
+        "disc_base_channels": 8,
+        "disc_num_blocks": 3,
+        "lr_srresnet": 0.001,
+        "lr_disc": 0.0002,
+        "lr_gen": 0.0002,
+        "gradient_accumulation_steps" : 4,
+        "srgan_lr_scheduler_steps" : 1000
+    },
+    "Data": {
+        "train_source_path": "../Data/out2",
+        "train_batch_size": 32,
+        "val_source_path": "../Data/animefaces256cleaner_Val",
+        "val_batch_size": 32,
+        "hr_image_size": 256,
+        "lr_image_size": 64
+    },
+    "Training": {
+        "enable_wandb_logger": true,
+        "enable_training_srresnet": true,
+        "srresnet_max_epochs" : 1,
+        "srgan_max_epochs" : 10
+    }
+}
