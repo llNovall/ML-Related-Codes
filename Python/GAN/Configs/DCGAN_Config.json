@@ -1,0 +1,25 @@
+{
+    "Model": {
+        "latent_dim": 100,
+        "gen_base_channels": 64,
+        "disc_base_channels": 64,
+        "lr_disc": 0.0002,
+        "lr_gen": 0.0002,
+        "gradient_accumulation_steps" : 1,
+        "lr_scheduler_steps" : 20000,
+        "loss" : "bce",
+        "block_type": "pixel_shuffle",
+        "critic_lambda" : 10,
+        "critic_opt_repeat" : 5,
+        "num_blocks": 5
+    },
+    "Data": {
+        "train_source_path": "../Data/out2",
+        "train_batch_size": 128,
+        "image_size": 64
+    },
+    "Training": {
+        "enable_wandb_logger": false,
+        "max_epochs" : 4
+    }
+}
